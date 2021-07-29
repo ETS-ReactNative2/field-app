@@ -4,9 +4,9 @@ import SubmissionPeriod from "../helpers/submission_period";
 import pushData from "./push_data";
 import uploadPhoto from "./upload_photo";
 
-const answerQuestion = async ({ connected, question, answer, callback=()=>{} }) => {
+const answerQuestion = async ({ interviewee, interviewMode, connected, question, answer, callback=()=>{} }) => {
   const imagesToUpload = [];
-
+  
   if (question.type === "PhotoUploadQuestion") {
     for (const image of answer) {
       const filename = File.basename(image.uri);
@@ -29,13 +29,15 @@ const answerQuestion = async ({ connected, question, answer, callback=()=>{} }) 
       questionId: question.id,
       value: answer,
       pushed: false,
+      intervieweeId: interviewee,
+      forInterviewee: interviewMode
     },
   });
-
+  
   // We could call SyncDataTask here but we don't want to pull myData after
   // answering every question as that's a lot of unnecessary network traffic.
   if (connected) {
-    await pushData();
+    await pushData({interviewMode});
 
     for (const image of imagesToUpload) {
       await uploadPhoto(image.id);

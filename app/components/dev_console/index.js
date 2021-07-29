@@ -1,4 +1,5 @@
 import styles from "./styles.js";
+import { host } from "../../../config/host.json";
 
 const DevConsole = () => {
   const [showing, setShowing] = useState(false);
@@ -42,6 +43,7 @@ const DevConsole = () => {
 
   return (
     <View {...className(["dev_console", showing && "showing", showing && bigger && "bigger"], styles)}>
+      
       <View {...className("actions")}>
         {showing && renderAction("reset", "Reset app")}
         {showing && renderAction("files", "Print files")}
@@ -58,8 +60,15 @@ const DevConsole = () => {
           </Text>
         ))}
       </ScrollView>
+      <Text style={text_styles.innerText}>{host}</Text>
     </View>
   );
 };
+
+const text_styles = StyleSheet.create({  
+  innerText: {
+    color: 'green'  
+  }
+});
 
 export default DevConsole;

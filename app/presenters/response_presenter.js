@@ -8,10 +8,10 @@ class ResponsePresenter extends ApplicationPresenter {
 
   static async presentElement(record) {
     const attr = await super.presentElement(record);
-
+    
+    attr['forInterviewee'] = record.forInterviewee === 1 ? true : false //parseBool(record.forInterviewee),
     renameField(attr, "id", "localId");
     renameField(attr, "questionId", "projectQuestionId");
-
     return attr;
   }
 };

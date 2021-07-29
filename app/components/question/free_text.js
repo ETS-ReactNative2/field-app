@@ -1,12 +1,15 @@
 import TextInput from "../text_input";
 
-const FreeText = ({ color="blue", placeholder, unit, response, onAnswer=()=>{}, setCanSubmit=()=>{}, ...rest }) => {
+const FreeText = ({ interviewMode, color="blue", placeholder, unit, response, onAnswer=()=>{}, setCanSubmit=()=>{}, ...rest }) => {
   const [previous, setPrevious] = useState("");
-  const defaultValue = response && response.value;
+  let defaultValue = response && response.value;
+  
+  if (interviewMode) {
+    defaultValue = null;
+  }
 
   const handleBlur = (text) => {
     if (text === previous) return;
-
     setPrevious(text);
     onAnswer(text);
   };

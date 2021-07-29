@@ -8,7 +8,7 @@ import styles from "./styles.js";
 import AnimateLoadingButton from "../animated_button";
 
 const Question = ({ navigation, color="blue", id, type, text, expectedValue, responses=[], onAnswer=()=>{}, issues=[], onViewIssue=()=>{}, ...rest }) => {
-
+  const { interviewee, interviewMode, setInterviewMode, setInterviewee } = useContext(AppContext);
   const [canSubmit, setCanSubmit] = useState(false);
   const response = SubmissionPeriod.last(responses);
   const t = useTranslate();
@@ -50,10 +50,10 @@ const Question = ({ navigation, color="blue", id, type, text, expectedValue, res
       <Text {...className("text", styles(color))}>{text}</Text>
 
       {expectedValue && <Text {...className("expected_value")}>{expectedValue.text}</Text>}
-      <View {...className(type)}>
-        {questionFor({ type, color, response, onAnswer: handleAnswer, setCanSubmit, ...rest })}
+      <View {...className(type)} style={{marginBottom: 20}}>
+        {questionFor({ interviewMode, type, color, response, onAnswer: handleAnswer, setCanSubmit, ...rest })}
       </View>
-      {<View {...className(`${type}_issue`)}>
+      {!interviewMode && <View {...className(`${type}_issue`)}>
         <IssueListing color={color} questionId={id} issues={issues} issuesPossible={rest.issuesPossible} onViewIssue={onViewIssue} />
       </View>}
 

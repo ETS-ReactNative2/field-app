@@ -3,7 +3,7 @@ import IntroComponent from "../components/intro";
 import changeRole from "../workflows/change_role";
 
 const Intro = ({ navigation }) => {
-  const { data, connected } = useContext(AppContext);
+  const { data, connected, interviewMode, setInterviewMode, interviewee, setInterviewee } = useContext(AppContext);
   const t = useTranslate();
 
   const pageParam = navigation.getParam("introPage");
@@ -41,6 +41,10 @@ const Intro = ({ navigation }) => {
       <ScrollView>
 
         <IntroComponent
+          interviewMode={interviewMode}
+          setInterviewMode={setInterviewMode}
+          interviewee={interviewee}
+          setInterviewee={setInterviewee}
           color={color}
           project={project}
           page={page}

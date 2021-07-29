@@ -24,15 +24,12 @@ const loadFonts = async (callback=()=>{}) => {
 };
 
 const loadModels = async (callback=()=>{}, options={}) => {
+  await sequelize.sync({ alter: true });
   const m = sequelize.models;
-
   Response.onLoad(m);
   IssueNote.onLoad(m);
   Image.onLoad(m);
   Attachment.onLoad(m);
-
-  await sequelize.sync(options);
-
   callback();
 };
 

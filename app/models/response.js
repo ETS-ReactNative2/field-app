@@ -12,6 +12,14 @@ const Response = sequelize.define("response", {
     allowNull: false,
     defaultValue: false,
   },
+  intervieweeId: {
+    type: Sequelize.TEXT
+  },
+  forInterviewee: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   createdAt: timestampField("createdAt"),
   updatedAt: timestampField("updatedAt"),
 });

@@ -3,10 +3,15 @@ import CheckList, { Checkbox } from "../check_list";
 import { View } from "react-native";
 //field-app/config/host.json
 
-const MultiChoice = ({ color="blue", response, multiChoiceOptions=[], multipleAnswers, onAnswer=()=>{} }) => {
+const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions=[], multipleAnswers, onAnswer=()=>{} }) => {
 
   const optionsTextAndPhoto = multiChoiceOptions.map(o => ({photo: o.photo, text: o.text}));
-  const defaultIds = response && [JSON.parse(response.value)].flat() || [];
+  let defaultIds = response && [JSON.parse(response.value)].flat() || [];
+  
+  if (interviewMode) {
+    defaultIds = [];    
+  }
+
   const defaultIndexes = filterIndex(multiChoiceOptions, o => contains(o.id, defaultIds));
 
   const onChange = (indexes) => {

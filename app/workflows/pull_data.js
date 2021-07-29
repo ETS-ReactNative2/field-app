@@ -18,7 +18,7 @@ const pullData = async ({ connected=true, force, callback=()=>{} } = {}) => {
   const responses = await ResponsePresenter.presentAll();
   const issueNotes = await IssueNotePresenter.presentAll();
   const combined = stitchMyData(myData, responses, issueNotes);
-
+  
   await callback(combined);
   return fetched;
 };

@@ -1,4 +1,4 @@
-import Image from "react-native-fullwidth-image"
+import Image from "react-native-fullwidth-image";
 import Layout from "../components/layout";
 import Button from "../components/button";
 import Card from "../components/card";
@@ -29,36 +29,63 @@ const Home = ({ navigation }) => {
   const { data } = useContext(AppContext);
   const projects = data.projects;
 
-  useEffect(() => { navigateToIntro({ navigation, projects }); }, []);
+  useEffect(() => {
+    navigateToIntro({ navigation, projects });
+  }, []);
 
   const handlePress = (projectIndex) => {
     return () => {
       useTranslate.setProject(projects[projectIndex]); // Use the project-specific translations.
       navigation.navigate("Intro", { introPage: 1, projectIndex });
-    }
+    };
   };
 
   const selectProjectImage = (id, projectTypeId) => {
-    let result
+    let result;
     if (projectTypeId === 6) {
-      result = images[7]
+      result = images[7];
     } else if (id === 239) {
-      result = images[239]
+      result = images[239];
     } else if (id >= 349) {
-      result = images[7]
+      result = images[7];
     } else {
-      result = (images[id] || images._)
+      result = images[id] || images._;
     }
-    return result
-  }
+    return result;
+  };
 
   const projectCard = ({ name, id, projectTypeId }, i) => (
-    <Card key={i} color={palette.cycle(i)} heading={name} number={i + 1} outOf={projects.length}>
-      <TouchableOpacity {...className("touchable")} onPress={handlePress(i)} activeOpacity={0.8}>
-        <Image source={selectProjectImage(id, projectTypeId)} width={500} height={id === 8 ? 650 : 350} />
+    <Card
+      key={i}
+      color={palette.cycle(i)}
+      heading={name}
+      number={i + 1}
+      outOf={projects.length}
+    >
+      <TouchableOpacity
+        {...className("touchable")}
+        onPress={handlePress(i)}
+        activeOpacity={0.8}
+      >
+        <Image
+          source={selectProjectImage(id, projectTypeId)}
+          width={500}
+          height={id === 8 ? 650 : 350}
+        />
       </TouchableOpacity>
     </Card>
   );
+
+  function body() {
+    return (
+      <Layout>
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          {projects.map(projectCard)}
+          <Version />
+        </ScrollView>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

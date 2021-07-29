@@ -5,6 +5,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@react-native-community/hooks": "^2.6.0",
     "@react-native-community/netinfo": "5.9.6",
     "@react-native-picker/picker": "^1.9.11",
     "Base64": "^1.1.0",
@@ -31,6 +32,7 @@
     "react-native-mime-types": "^2.3.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-screens": "~2.10.1",
+    "react-native-sticky-parallax-header": "^0.4.0",
     "react-native-svg": "12.1.0",
     "react-native-web": "~0.13.7",
     "react-native-webview": "10.7.0",
