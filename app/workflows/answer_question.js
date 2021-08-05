@@ -37,7 +37,7 @@ const answerQuestion = async ({ interviewee, interviewMode, connected, question,
   // We could call SyncDataTask here but we don't want to pull myData after
   // answering every question as that's a lot of unnecessary network traffic.
   if (connected) {
-    await pushData({interviewMode});
+    await pushData();
 
     for (const image of imagesToUpload) {
       await uploadPhoto(image.id);

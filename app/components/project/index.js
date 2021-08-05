@@ -2,7 +2,8 @@ import Activity from "../activity";
 import Sticky from "../sticky";
 import Summary from "../summary";
 import AnimateLoadingButton from "../animated_button";
-import pushData from "../../workflows/push_data";
+import pushInterviewData from "../../workflows/push_interview_data";
+import Response from "../../models/response";
 
 
 const Project = ({
@@ -20,7 +21,7 @@ const Project = ({
   const projectColor = palette.cycle(index);
   const activityColor = (i) => palette.cycle(index + i);
   const isCurrent = (id) => id === (currentProjectActivity || {}).id;
-  const { setInterviewMode, setInterviewee } = useContext(AppContext);
+  const { setInterviewMode, setInterviewee, interviewee } = useContext(AppContext);
   const t = useTranslate();
 
   const hasContract = sourceMaterials.length > 0;
@@ -30,15 +31,20 @@ const Project = ({
 
   const handlePress = () => {
     doneRef.current.showLoading(true);    
-    setTimeout(() => {
+    setTimeout(async () => {
       if (true) {               
         console.log("Navigating home");     
-        console.log("INTERVIEW MODE OFF: Now pushing data");
+        console.log("INTERVIEW MODE OFF: Now pushing data");           
+        await Response.update({ interviewComplete: true }, {
+          where: {
+            intervieweeId: interviewee
+          }
+        });
+        useTranslate.unsetProject();  
         setInterviewee(null)
-        setInterviewMode(false);              
-        pushData({interviewMode: false});  
-        useTranslate.unsetProject();             
+        setInterviewMode(false);            
         navigation.navigate("Home");        
+        pushInterviewData();
       } 
     }, 1000);
   };

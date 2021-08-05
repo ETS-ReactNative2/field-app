@@ -20,6 +20,11 @@ const Response = sequelize.define("response", {
     allowNull: false,
     defaultValue: false,
   },
+  interviewComplete: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   createdAt: timestampField("createdAt"),
   updatedAt: timestampField("updatedAt"),
 });

@@ -5,16 +5,8 @@ import IssueNote from "../models/issue_note";
 import ResponsePresenter from "../presenters/response_presenter";
 import IssueNotePresenter from "../presenters/issue_note_presenter";
 
-const pushData = async ({interviewMode} = {}) => {
-  let  responses = [];
-
-  // only submit interview reponses when interview mode is 'done'
-  if (interviewMode){
-    responses = await ResponsePresenter.presentAll({ pushed: false, forInterviewee: false });
-  } else {
-    responses = await ResponsePresenter.presentAll({ pushed: false });
-  }
- 
+const pushData = async () => {
+  const responses = await ResponsePresenter.presentAll({ pushed: false, forInterviewee: false });
   const issueNotes = await IssueNotePresenter.presentAll({ pushed: false });
 
   if (responses.length === 0 && issueNotes.length === 0) return false;

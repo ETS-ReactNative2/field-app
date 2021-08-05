@@ -1,5 +1,6 @@
 import "./globals";
 import SyncMyDataTask from "./tasks/sync_my_data_task";
+import SyncInterviewDataTask from "./tasks/sync_interview_data_task";
 import PhotoUploadTask from "./tasks/photo_upload_task";
 import FileDownloadTask from "./tasks/file_download_task";
 import loadApp from "./workflows/load_app";
@@ -28,6 +29,7 @@ const AuthStack = createSwitchNavigator(
 const AppContainer = createAppContainer(AuthStack);
 // These tasks run every 15 minutes when the app is in the background.
 SyncMyDataTask.enable({ log: true });
+SyncInterviewDataTask.enable({ log: true });
 PhotoUploadTask.enable({ log: true });
 FileDownloadTask.enable({ log: true });
 
@@ -54,6 +56,7 @@ const App = () => {
       Client.setToken(token); // Ensure the token is definitely set (race condition)
 
       await SyncMyDataTask.runWith({ connected, callback: setData });
+      await SyncInterviewDataTask.runWith({ connected, callback: setData });
       await PhotoUploadTask.runWith({ connected });
       await FileDownloadTask.runWith({ connected });
     },
