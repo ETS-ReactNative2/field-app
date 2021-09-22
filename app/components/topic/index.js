@@ -45,14 +45,6 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const renderQuestionCard = (color, props, name, questions, i, showChildren) => {
     let result;
-    // if(props.isChild) {
-    // console.log("THE NAME " + props.text);
-    // console.log("IS THIS A CHILD " + props.isChild);
-    // console.log("RESPONSE TRIGGER " + props.childResponseTrigger);
-    // console.log("THE ARRAY " + showChildren);
-    // console.log("DOES SHOW CHILDREN CONTAIN OUR RESPONSE NUMBER? " + showChildren.includes(props.childResponseTrigger.toString()));
-    // console.log("---------------------------");
-    // }
     let numberOfDes = questions.filter(obj => obj.isChild).length;
     if(props.isChild && contains(props.childResponseTrigger, showChildren.map(a => a.answer))) {
       result = <Card color={color} heading={name} key={i} number={i + 1} outOf={questions.length - numberOfDes + showChildren.length}>
@@ -68,7 +60,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
     }
     return result;
   };
-  // props.childResponseTrigger renderQuestionCard(color, props, name, questions, i)
+  
   return (
     questions.map((props, i) => (
       renderQuestionCard(color, props, name, questions, i, showChildren)
