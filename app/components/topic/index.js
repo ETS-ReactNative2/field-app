@@ -45,22 +45,22 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const renderQuestionCard = (color, props, name, questions, i, showChildren) => {
     let result;
-    let numberOfDes = questions.filter(obj => obj.isChild).length;
+    
     if(props.isChild && contains(props.childResponseTrigger, showChildren.map(a => a.answer))) {
-      result = <Card color={color} heading={name} key={i} number={i + 1} outOf={questions.length - numberOfDes + showChildren.length}>
+      result = <Card color={color} heading={name} key={i}>
         <Text>{props.id} {name}</Text>
       <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
     </Card>
     } 
     else if(!props.isChild) {
-      result = <Card color={color} heading={name} key={i} number={i + 1} outOf={questions.length - numberOfDes + showChildren.length}>
+      result = <Card color={color} heading={name} key={i}>
         <Text>{props.id} {name}</Text>
         <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
       </Card>
     }
     return result;
   };
-  
+
   return (
     questions.map((props, i) => (
       renderQuestionCard(color, props, name, questions, i, showChildren)
