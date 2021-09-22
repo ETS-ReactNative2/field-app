@@ -15,7 +15,7 @@ const pullData = async ({ connected=true, force, callback=()=>{} } = {}) => {
   const maxAge = force ? 0 : undefined;
   const myData = await FileCache.fetch("my_data.json", { onMiss, maxAge });
 
-  const responses = await ResponsePresenter.presentAll();
+  const responses = await ResponsePresenter.presentAll({ forInterviewee: false });
   const issueNotes = await IssueNotePresenter.presentAll();
   const combined = stitchMyData(myData, responses, issueNotes);
   

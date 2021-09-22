@@ -21,6 +21,7 @@ const answerQuestion = async ({ interviewee, interviewMode, connected, question,
   const response = await createOrUpdate(Response, {
     where: {
       questionId: question.id,
+      forInterviewee: false,
       createdAt: {
         [Op.gte]: SubmissionPeriod.startedAt(),
       },
@@ -30,9 +31,10 @@ const answerQuestion = async ({ interviewee, interviewMode, connected, question,
       value: answer,
       pushed: false,
       intervieweeId: interviewee,
-      forInterviewee: interviewMode
+      forInterviewee: interviewMode,
+      interviewComplete: false
     },
-  });
+  }, interviewMode);
   
   // We could call SyncDataTask here but we don't want to pull myData after
   // answering every question as that's a lot of unnecessary network traffic.
