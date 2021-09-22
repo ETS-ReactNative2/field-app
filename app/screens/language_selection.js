@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 const LanguageSelection = ({ navigation }) => {
   const { token, setToken, data, connected } = useContext(AppContext);
-  const [langData, setData] = useState(<Text>Nothing</Text>);
+  const [langData, setLangData] = useState(<Text>Nothing</Text>);
   const [dataHere, setDataHere] = useState(false);
   const [locales, setLocales] = useState([]);
   const { locale, timezone } = useLocale();
@@ -57,7 +57,7 @@ const LanguageSelection = ({ navigation }) => {
         </ListItem.Content>
       </ListItem>
     ));
-    setData(lang);
+    setLangData(lang);
   };
 
   const handlePress = async () => {

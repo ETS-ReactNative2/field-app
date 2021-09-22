@@ -56,59 +56,12 @@ const App = () => {
       Client.setToken(token); // Ensure the token is definitely set (race condition)
 
       await SyncMyDataTask.runWith({ connected, callback: setData });
-      await SyncInterviewDataTask.runWith({ connected, callback: setData });
+      await SyncInterviewDataTask.runWith({ connected });
       await PhotoUploadTask.runWith({ connected });
       await FileDownloadTask.runWith({ connected });
     },
     [connected]
   );
-
-  //const t = useTranslate();
-
-  // useWhen([locale, timezone], async () => {
-  //   useTranslate.setLocale(locale);
-  //   Client.setLocale(locale);
-  //   Client.setTimezone(timezone);
-  // });
-  // const handleExitInterviewMode = () => {
-  //   inputInterviewRef.current.showLoading(true);
-  //   setTimeout(() => {
-  //     if (interviewee) {
-  //       deleteIntervieweeData(interviewee);
-  //       setInterviewee(null);
-  //       setInterviewMode(false);
-  //       containerRef.current.dispatch(
-  //         NavigationActions.navigate({ routeName: "Home" })
-  //       );
-  //     }
-  //   }, 1500);
-  // };
-
-  // const renderInterviewPanel = () => {
-  //   return (
-  //     <Card containerStyle={{marginTop: 40, backgroundColor: palette["blue"].secondary }}>
-  //       <Card.Title style={{ color: "white" }}>{t.interview_banner}</Card.Title>
-  //       <Card.Divider />
-  //       <View style={{marginBottom: 25}}>
-  //         <Text style={{ color: "white" }}>
-  //           {t.interview_banner_message}
-  //         </Text>
-  //       </View>
-  //       <AnimateLoadingButton
-  //         ref={inputInterviewRef}
-  //         width={350}
-  //         height={40}
-  //         title={t.interview_banner_button}
-  //         titleFontSize={14}
-  //         titleWeight={"100"}
-  //         titleColor="white"
-  //         backgroundColor={palette["black"].primary}
-  //         borderRadius={4}
-  //         onPress={handleExitInterviewMode}
-  //       />
-  //     </Card>
-  //   );
-  // };
 
   if (!loaded || !data) return <Loading />;
 

@@ -20,12 +20,8 @@ class SyncInterviewDataTask extends BackgroundTask {
     return await this.runWith({ connected });
   }
 
-  static async runWith({ connected, force, callback=()=>{} } = {}) {
-    const interviewDataWasPushed = connected ? await pushInterviewData() : false;
-
-    //const forcePull = force || dataWasPushed;
-    //const dataWasPulled = await pullData({ connected, force: forcePull, callback });
-
+  static async runWith({ connected } = {}) {
+    const interviewDataWasPushed = connected ? await pushInterviewData() : false;    
     return connected && (interviewDataWasPushed);
   }
 };

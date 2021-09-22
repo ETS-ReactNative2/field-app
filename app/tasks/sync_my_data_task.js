@@ -21,6 +21,7 @@ class SyncMyDataTask extends BackgroundTask {
   }
 
   static async runWith({ connected, force, callback=()=>{} } = {}) {
+    console.log("SYNCMYDATA TASK IS RUNNING");
     const dataWasPushed = connected ? await pushData() : false;
 
     const forcePull = force || dataWasPushed;

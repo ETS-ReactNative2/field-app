@@ -1,9 +1,14 @@
 import Layout from "../components/layout";
 import IntroComponent from "../components/intro";
 import changeRole from "../workflows/change_role";
+import pullData from "../workflows/pull_data";
 
 const Intro = ({ navigation }) => {
-  const { data, connected, interviewMode, setInterviewMode, interviewee, setInterviewee } = useContext(AppContext);
+  const { data, setData, connected, interviewMode, setInterviewMode, interviewee, setInterviewee } = useContext(AppContext);
+  useEffect(() => {
+    pullData({ connected, callback: setData });
+  }, []);
+  
   const t = useTranslate();
 
   const pageParam = navigation.getParam("introPage");
@@ -12,6 +17,8 @@ const Intro = ({ navigation }) => {
 
   const color = palette.cycle(projectIndex);
   const [page, setPage] = useState(parseInt(pageParam || 1, 10));
+
+
 
   useBack(navigation, () => {
     if (page === 1) {
