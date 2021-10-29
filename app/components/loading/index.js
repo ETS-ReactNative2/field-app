@@ -2,12 +2,16 @@ import { Animated } from "react-native";
 import { Spinner } from "../svg_icon";
 import styles from "./styles.js";
 
+
 const Loading = () => {
   const [frame, setFrame] = useState(0);
   const t = useTranslate();
 
   // Don't show the loading text if we haven't determined the user's locale yet.
-  const showText = !!useTranslate.locale;
+  const showText =  AsyncStorage.getItem("locale").then((value) => {
+    return !!value;
+  })
+   //
 
   useEffect(() => {
     const interval = setInterval(() => setFrame(f => f + 1), 200);

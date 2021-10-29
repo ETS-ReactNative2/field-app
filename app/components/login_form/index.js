@@ -3,10 +3,9 @@ import Button from "../../components/button";
 import { Phone, ArrowRight, Exclamation } from "../svg_icon";
 import styles from "./styles.js";
 
-const LoginForm = ({ color="purple", error=false, onSubmit=()=>{} }) => {
+const LoginForm = ({ color="purple", error=false, onSubmit=()=>{}, route="none" }) => {
   const [phone, setPhone] = useState();
-  const t = useTranslate();
-
+  const t = useTranslate({route: route});
   const handlePress = () => {
     Keyboard.dismiss();
     onSubmit(phone);
