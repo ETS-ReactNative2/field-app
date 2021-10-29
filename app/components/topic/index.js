@@ -10,8 +10,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
   const handleAnswer = (question) => {
     return (answer) => {
       var itemsToRemove = [...question.descendants, question.id.toString()]
-      console.log("ITEMS TO REMOVE");
-      console.log(itemsToRemove);
+
       if(showChildren.find(x => x.id.toString() === question.id.toString()) && question.type == "MultiChoiceQuestion" && !question.multipleAnswers) {
         if(answer.toString().trim() == "") {
           setShowChildren(removeMeAndMyDes(itemsToRemove));
@@ -24,18 +23,13 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
           setShowChildren([...showChildren, {'id' : question.id.toString(), 'answer' : answer.toString()}]);
         // ANSWER IS BEING ADDED, BUT WE NEED A RERENDER BASED ON THIS ARRAY
       }
-    
-      console.log("SHOW CHILDREN");
-      console.log(showChildren);
       onAnswerQuestion({ question, answer });
     };
   };
 
   const removeMeAndMyDes = (itemsToRemove) => {
     var newArray = showChildren.filter(obj => !itemsToRemove.includes(obj.id.toString()));
-    
-    console.log("ARRAY WITH ITEMS RMEOVED");
-    console.log(newArray);
+
     return newArray;
   }
 

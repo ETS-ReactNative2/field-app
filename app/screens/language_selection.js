@@ -35,8 +35,6 @@ const LanguageSelection = ({ navigation }) => {
     renderItemList(res);
   };
 
-
-
   const handleCheckBoxPress = (locale) => {
     setChecked(locale);
   };
@@ -61,13 +59,7 @@ const LanguageSelection = ({ navigation }) => {
   };
 
   const handlePress = async () => {
-    //let res = await new Client().submitLocale(checked);
-    //useWhen([locale, timezone], async () => {
-      useTranslate.setLocale(checked);
-      Client.setLocale(checked);
-      //Client.setTimezone(timezone);
-    //});
-   
+    await useTranslate.setLocale(checked);   
     navigation.navigate("Login");
   };
 

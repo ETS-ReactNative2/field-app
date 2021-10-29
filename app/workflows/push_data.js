@@ -12,8 +12,7 @@ const pushData = async () => {
   if (responses.length === 0 && issueNotes.length === 0) return false;
 
   const partitions = SubmissionPeriod.partitionMany({ responses, issueNotes });
-  console.log("NORMAL PARTITIONS");
-  console.log(partitions);
+
   await new Client().postMyUpdates(partitions);
 
   await Response.update({ pushed: true }, { ...whereIds(responses) });

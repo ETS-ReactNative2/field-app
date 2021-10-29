@@ -1,5 +1,8 @@
 import preLoginTranslations from "../helpers/pre_login_translations";
+import * as Localization from "expo-localization";
 
+
+//import { locale } from "expo-localization";
 // Provides a function for getting translated text from the user_interface_text
 // section of /my_data. Both these work:
 //
@@ -14,7 +17,7 @@ import preLoginTranslations from "../helpers/pre_login_translations";
 //
 // t.issue.record
 
-const useTranslate = () => {
+const useTranslate = ({route="none"}={}) => {
   let { data } = useContext(AppContext);
 
   data = data || { userInterfaceText: [] };
@@ -24,11 +27,19 @@ const useTranslate = () => {
     data = { userInterfaceText: fakeTranslationText };
   }
 
-  if (useTranslate.locale) {
+  if(useTranslate.locale && route=="Login"){
     data.userInterfaceText = [
       ...preLoginTranslations[useTranslate.locale], ...data.userInterfaceText,
     ];
   }
+
+  AsyncStorage.getItem('locale').then((value) => {
+    if (value) {
+      data.userInterfaceText = [
+        ...preLoginTranslations[value], ...data.userInterfaceText,
+      ];
+    }
+  });
 
   const translate = (key, args={}) => {
     let value = getNested(key);
@@ -75,15 +86,29 @@ const useTranslate = () => {
   return translate;
 };
 
-useTranslate.setLocale = (locale) => {
+useTranslate.setLocale = async (locale) => {
+ 
   const p = preLoginTranslations;
-  const [language, region] = locale.split("-");
-
+  await AsyncStorage.setItem("locale", locale);
+  const appLocale = await AsyncStorage.getItem('locale');
+  //const [language, region] = locale.split("-");
   // Mimic the fallback behaviour in Rails. If we end up with more complicated
   // rules in the backend, we could pass them via the /translations endpoint.
-  if (p[locale])   { useTranslate.locale = locale;   return; }
-  if (p[language]) { useTranslate.locale = language; return; }
-  if (p["en"])     { useTranslate.locale = "en";     return; }
+  // if (p[locale])   { useTranslate.locale = locale;   return; }
+  // if (p[language]) { useTranslate.locale = language; return; }
+  // if (p["en"])     { useTranslate.locale = "en";     return; }
+
+  if (p[locale]) { 
+    await AsyncStorage.setItem("locale", locale);
+    useTranslate.locale = locale; 
+    return; 
+  } else {
+    await AsyncStorage.setItem("locale", "en");
+    useTranslate.locale = "en"
+    return;
+  }
+  
+
 };
 
 useTranslate.setProject = (project) => {

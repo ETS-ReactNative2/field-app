@@ -20,20 +20,19 @@ class Client {
     this.headers.Authorization = `Basic ${Base64.btoa(`:${token}`)}`;
   }
 
-  static setLocale(locale) {
-    this.headers["Accept-Language"] = locale;
-  }
+  // static async setLocale(locale, bk) {
+  //   if(bk){
+  //     console.log("LOCALE PICKED IN BACKGROUND TASK");
+  //     console.log(locale);
+  //   }        
+  //   let value = await AsyncStorage.getItem('locale');
+  //   console.log("LOCALE VALUE from async storage");
+  //   console.log(value);
+  //   this.headers["Accept-Language"] = value;
+  // }
 
   static setTimezone(timezone) {
     this.headers["Time-Zone"] = timezone;
-  }
-
-  async submitLocale(locale) {
-    Client.setLocale(locale);
-    let path = "/translations/select_locale";
-    const response = await fetch(`${host}${path}`, { headers: Client.headers });
-    const data = await response.json();
-    return data; 
   }
 
   getMyData() {
@@ -71,7 +70,9 @@ class Client {
   }
 
   async getJSON(path) {
-    const response = await fetch(`${host}${path}`, { headers: Client.headers });
+    const locale = await AsyncStorage.getItem('locale');    
+    //{"Accept-Language": locale, ...Client.headers}
+    const response = await fetch(`${host}${path}`, { headers: {...Client.headers, "Accept-Language": locale} });
 
     if (this.isError(response)) {
       throw new Error(`GET ${path} failed with a ${response.status} status`);
@@ -96,9 +97,11 @@ class Client {
   }
 
   async post(path, contentType, body) {
+    const locale = await AsyncStorage.getItem('locale');
+    //, "Accept-Language": locale
     const response = await fetch(`${host}${path}`, {
       method: "POST",
-      headers: { ...Client.headers, "Content-Type": contentType },
+      headers: { ...Client.headers, "Content-Type": contentType, "Accept-Language": locale},
       body,
     });
 

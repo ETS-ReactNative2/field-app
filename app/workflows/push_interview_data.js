@@ -17,8 +17,7 @@ const pushInterviewData = async () => {
   if (responses.length === 0) return false;
 
   const partitions = SubmissionPeriod.partitionMany({ responses, issueNotes });
-  console.log("PARTITIONS TO BE SENT");
-  console.log(partitions);  
+
   await new Client().postMyUpdates(partitions); // send all interview data to backend
   await Response.destroy({ ...whereIds(responses) }); 
   return true;

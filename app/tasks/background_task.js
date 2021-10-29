@@ -38,8 +38,8 @@ class BackgroundTask {
 
     // Background tasks run in a separrate process so we need to set global state.
     const { locale, timezone } = await Localization.getLocalizationAsync();
-
-    Client.setLocale(locale);
+    // I NEED TO SET LOCALE HERE
+    //Client.setLocale(locale, true);
     Client.setTimezone(timezone);
 
     try {

@@ -3,6 +3,7 @@ import pushData from "../workflows/push_data";
 import pullData from "../workflows/pull_data";
 import Secret from "../helpers/secret";
 import hasWifi from "../helpers/has_wifi";
+import { AsyncStorage } from "react-native";
 
 class SyncMyDataTask extends BackgroundTask {
   static name() {
@@ -22,6 +23,7 @@ class SyncMyDataTask extends BackgroundTask {
 
   static async runWith({ connected, force, callback=()=>{} } = {}) {
     console.log("SYNCMYDATA TASK IS RUNNING");
+    
     const dataWasPushed = connected ? await pushData() : false;
 
     const forcePull = force || dataWasPushed;

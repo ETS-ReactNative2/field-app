@@ -1,4 +1,5 @@
 import * as Updates from 'expo-updates';
+import { AsyncStorage } from 'react-native';
 
 const resetEverything = async () => {
   // Reset the database.
@@ -11,7 +12,7 @@ const resetEverything = async () => {
 
   // Delete the API token.
   await Secret.remove("token");
-
+  await AsyncStorage.removeItem('locale');
   // Abandon in-progress downloads.
   if (Download.inProgress()) {
     await Download.pause();

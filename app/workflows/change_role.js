@@ -1,5 +1,4 @@
 import { Updates } from "expo";
-import { AsyncStorage } from "react-native";
 import pullData from "./pull_data";
 
 const changeRole = async ({ project, role }) => {

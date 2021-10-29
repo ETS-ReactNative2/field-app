@@ -15,6 +15,13 @@ import Loading from "./components/loading";
 import { Card, ListItem, Button, Icon } from "react-native-elements";
 import AnimateLoadingButton from "./components/animated_button";
 import deleteIntervieweeData from "./helpers/delete_interviewee_data";
+// (async function () {
+//   await resetEverything();
+// })();
+SyncMyDataTask.enable({ log: true });
+SyncInterviewDataTask.enable({ log: true });
+PhotoUploadTask.enable({ log: true });
+FileDownloadTask.enable({ log: true });
 
 // Create the navigation stack so that you can't go back to the login screen.
 const options = { headerMode: "none" };
@@ -22,16 +29,13 @@ const AppStack = createStackNavigator(
   { Home, Intro, Project, Source, Issue },
   options
 );
+//, 
 const AuthStack = createSwitchNavigator(
   { LanguageSelection, Login, App: AppStack },
   options
 );
 const AppContainer = createAppContainer(AuthStack);
-// These tasks run every 15 minutes when the app is in the background.
-SyncMyDataTask.enable({ log: true });
-SyncInterviewDataTask.enable({ log: true });
-PhotoUploadTask.enable({ log: true });
-FileDownloadTask.enable({ log: true });
+
 
 const App = () => {
   enableScreens();
@@ -49,7 +53,7 @@ const App = () => {
   useEffect(() => {
     loadApp(() => setLoaded(true));
   }, []);
-
+  //IN LOGIN SCREEN NOW
   useWhen(
     [loaded, foreground, token],
     async () => {
@@ -62,7 +66,10 @@ const App = () => {
     },
     [connected]
   );
-
+  console.log("LOADED")
+  console.log(loaded);
+  console.log("DATA");
+  console.log(data);
   if (!loaded || !data) return <Loading />;
 
   return (
@@ -70,6 +77,8 @@ const App = () => {
       value={{
         data,
         setData,
+        foreground,
+        loaded,
         token,
         setToken,
         connected,
