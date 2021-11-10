@@ -45,6 +45,8 @@ import useBack from "./hooks/use_back";
 import useTranslate from "./hooks/use_translate";
 import useLocale from "./hooks/use_locale";
 
+console.log("LOADED");
+
 global.React = React;
 global.useState = useState;
 global.useEffect = useEffect;

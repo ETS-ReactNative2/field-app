@@ -5,6 +5,7 @@ import Card from "../components/card";
 import Map from "../components/map";
 import Version from "../components/version";
 import { navigateToIntro } from "../workflows/change_role";
+import { host } from "../../config/host.json";
 
 // TODO: make this data driven, e.g. add image attachments to projects
 const images = {
@@ -43,9 +44,12 @@ const Home = ({ navigation }) => {
     };
   };
 
-  const selectProjectImage = (id, projectTypeId) => {
+  const selectProjectImage = (id, projectTypeId, photo) => {
     let result;
-    if (projectTypeId === 6) {
+    if(photo) {
+      result = {uri: `${host}/${photo}`}      
+    }
+    else if (projectTypeId === 6) {
       result = images[7];
     } else if (id === 239) {
       result = images[239];
@@ -57,7 +61,7 @@ const Home = ({ navigation }) => {
     return result;
   };
 
-  const projectCard = ({ name, id, projectTypeId }, i) => (
+  const projectCard = ({ name, id, projectTypeId, photo }, i) => (
     <Card
       key={i}
       color={palette.cycle(i)}
@@ -71,7 +75,7 @@ const Home = ({ navigation }) => {
         activeOpacity={0.8}
       >
         <Image
-          source={selectProjectImage(id, projectTypeId)}
+          source={selectProjectImage(id, projectTypeId, photo)}
           width={500}
           height={id === 8 ? 650 : 350}
         />
