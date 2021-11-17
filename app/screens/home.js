@@ -75,7 +75,7 @@ const Home = ({ navigation }) => {
         activeOpacity={0.8}
       >
         <Image
-          source={selectProjectImage(id, projectTypeId, photo)}
+          source={{uri: `${host}/${photo}`}}
           width={500}
           height={id === 8 ? 650 : 350}
         />
