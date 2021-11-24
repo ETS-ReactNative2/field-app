@@ -15,6 +15,8 @@ const RadioGroup = ({ children=[], defaultIndex, index, onChange=()=>{}, ...rest
 
   const handleCheck = (child, i) => {
     return (active) => {
+      requestAnimationFrame(() => {
+    
       const callback = child.props.onCheck;
       if (callback) callback(active);
 
@@ -27,6 +29,8 @@ const RadioGroup = ({ children=[], defaultIndex, index, onChange=()=>{}, ...rest
 
       if (controlled) return;
       setCurrent(i);
+
+  });
     };
   };
 

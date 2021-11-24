@@ -8,6 +8,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
 
   const handleAnswer = (question) => {
+    requestAnimationFrame(() => {
     return (answer) => {
       var itemsToRemove = [...question.descendants, question.id.toString()]
 
@@ -25,6 +26,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
       }
       onAnswerQuestion({ question, answer });
     };
+  });
   };
 
   const removeMeAndMyDes = (itemsToRemove) => {

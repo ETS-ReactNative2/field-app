@@ -3,11 +3,12 @@ import CheckList, { Checkbox } from "../check_list";
 import { View } from "react-native";
 //field-app/config/host.json
 
+
 const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions=[], multipleAnswers, onAnswer=()=>{} }) => {
 
   const optionsTextAndPhoto = multiChoiceOptions.map(o => ({photo: o.photo, text: o.text}));
   let defaultIds = response && [JSON.parse(response.value)].flat() || [];
-  
+
   if (interviewMode) {
     defaultIds = [];    
   }
@@ -15,17 +16,18 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
   const defaultIndexes = filterIndex(multiChoiceOptions, o => contains(o.id, defaultIds));
 
   const onChange = (indexes) => {
-    
-    if (indexes[0] == -1) {
-      onAnswer("");
-      return;
-    }
-
-    const ids = indexes.map(index => multiChoiceOptions[index].id);
-    ids.sort((a, b) => a - b);
-
-    const value = ids.length <= 1 ? (ids[0] || "") : JSON.stringify(ids);
-    onAnswer(value);
+    requestAnimationFrame(() => {
+      if (indexes[0] == -1) {
+        onAnswer("");
+        return;
+      }
+  
+      const ids = indexes.map(index => multiChoiceOptions[index].id);
+      ids.sort((a, b) => a - b);
+  
+      const value = ids.length <= 1 ? (ids[0] || "") : JSON.stringify(ids);
+      onAnswer(value);
+    });
   };
 
   const props = { color, defaultIndexes, optionsTextAndPhoto, onChange };
