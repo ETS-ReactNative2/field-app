@@ -19,9 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "version": "0.59.3",
+    "version": "0.59.4",
     "android": {
-      "versionCode": 81,
+      "versionCode": 82,
       "package": "com.truefootprint.field_app",
       "permissions": [
         "CAMERA",

@@ -5,6 +5,17 @@ import Constants from "expo-constants";
 const initializeSentry = () => {
   
   Sentry.init({
+    // integrations: [
+    //   new RewriteFrames({
+    // //     iteratee: (frame) => {
+    // //       if (frame.filename) {
+    // //         // the values depend on what names you give the bundle files you are uploading to Sentry
+    // //         frame.filename = 'app:///main.android.bundle';
+    // //       }
+    // //       return frame;
+    // //     },
+    // //   }),
+    // // ],
     dsn: dsn,
     enableInExpoDevelopment: false,
     release: Constants.manifest.revisionId,
