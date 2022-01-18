@@ -16,7 +16,6 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
   const defaultIndexes = filterIndex(multiChoiceOptions, o => contains(o.id, defaultIds));
 
   const onChange = (indexes) => {
-    requestAnimationFrame(() => {
       if (indexes[0] == -1) {
         onAnswer("");
         return;
@@ -26,8 +25,7 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
       ids.sort((a, b) => a - b);
   
       const value = ids.length <= 1 ? (ids[0] || "") : JSON.stringify(ids);
-      onAnswer(value);
-    });
+      onAnswer(value);    
   };
 
   const props = { color, defaultIndexes, optionsTextAndPhoto, onChange };
@@ -45,7 +43,7 @@ const MultipleAnswers = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=
 );
 
 const SingleAnswer = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=()=>{} }) => (
-  <RadioGroup color={color} onChange={i => onChange([i])} defaultIndex={defaultIndexes[0]}>
+  <RadioGroup color={color} onChange={i =>  onChange([i])} defaultIndex={defaultIndexes[0]}>
     {optionsTextAndPhoto.map((obj, i) => (
       <Radio key={i} obj={obj}>
         <Text>{obj.text}</Text>
