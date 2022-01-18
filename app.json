@@ -19,9 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "version": "0.58.9",
+    "version": "0.59.3",
     "android": {
-      "versionCode": 77,
+      "versionCode": 81,
       "package": "com.truefootprint.field_app",
       "permissions": [
         "CAMERA",
@@ -42,6 +42,9 @@
       "config": {
         "googleMapsApiKey": "AIzaSyD69i5vAUkOXZPtdAoqs17uLIoTS73v00M"
       }
-    }
+    },
+    "plugins": [
+      "sentry-expo"
+    ]
   }
 }
