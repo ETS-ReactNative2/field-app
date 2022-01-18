@@ -16,21 +16,19 @@ const RadioGroup = ({ children=[], defaultIndex, index, onChange=()=>{}, ...rest
   const handleCheck = (child, i) => {
     return (active) => {
       requestAnimationFrame(() => {
-    
-      const callback = child.props.onCheck;
-      if (callback) callback(active);
+        const callback = child.props.onCheck;
+        if (callback) callback(active);
 
-      if (i === current) {
-        onChange(-1);
-        setCurrent(-1);
-        return;
-      }
-      onChange(i);
+        if (i === current) {
+          onChange(-1);
+          setCurrent(-1);
+          return;
+        }
+        onChange(i);
 
-      if (controlled) return;
-      setCurrent(i);
-
-  });
+        if (controlled) return;
+        setCurrent(i);
+      });
     };
   };
 
