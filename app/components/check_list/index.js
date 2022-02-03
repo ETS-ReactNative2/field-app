@@ -16,9 +16,8 @@ const CheckList = ({ children=[], defaultIndexes, indexes, onChange=()=>{}, ...r
     return (active) => {
       const callback = child.props.onCheck;
       if (callback) callback(active);
-
       const newCurrent = contains(i, current) ? removeIndex(i) : addIndex(i);
-      onChange(newCurrent);
+      onChange(newCurrent, i);
 
       if (controlled) return;
       setCurrent(newCurrent);

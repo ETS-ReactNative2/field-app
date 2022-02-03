@@ -15,7 +15,9 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
 
   const defaultIndexes = filterIndex(multiChoiceOptions, o => contains(o.id, defaultIds));
 
-  const onChange = (indexes) => {
+  const onChange = (indexes, previousMultiChoiceAnswerIndex) => {
+      let previousMultiChoiceAnswerId = null;
+
       if (indexes[0] == -1) {
         onAnswer("");
         return;
@@ -25,7 +27,18 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
       ids.sort((a, b) => a - b);
   
       const value = ids.length <= 1 ? (ids[0] || "") : JSON.stringify(ids);
-      onAnswer(value);    
+      if(previousMultiChoiceAnswerIndex) {
+        previousMultiChoiceAnswerId = JSON.stringify(multiChoiceOptions[previousMultiChoiceAnswerIndex].id)
+
+        if(value && Array.isArray(JSON.parse(value))) {
+          let ansArray = JSON.parse(value)
+          ansArray.includes(previousMultiChoiceAnswerId.toString());
+          previousMultiChoiceAnswerId = null
+        } else if (value.toString() == previousMultiChoiceAnswerId.toString()){
+          previousMultiChoiceAnswerId = null
+        }
+      }
+      onAnswer(value, previousMultiChoiceAnswerId);    
   };
 
   const props = { color, defaultIndexes, optionsTextAndPhoto, onChange };

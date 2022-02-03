@@ -14,9 +14,9 @@ const Question = ({ navigation, color="blue", id, type, text, expectedValue, res
   const t = useTranslate();
   const inputRef = useRef(null);
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer, previousMultiChoiceAnswerId) => {
     setCanSubmit(true);
-    onAnswer(answer);
+    onAnswer(answer, previousMultiChoiceAnswerId);
   };
 
   React.useEffect( () => {  
