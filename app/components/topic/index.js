@@ -17,8 +17,8 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
   };
 
    const  displayChilden =  function(question, answer, previousSelection) {
-     console.log("22. ANSWER")
-     console.log(answer)
+     //console.log("22. ANSWER")
+     //console.log(answer)
      // answer can be blank or the id of a multioption selection
     setTimeout(function(){ 
       if  (question.type == "MultiChoiceQuestion") { 
@@ -43,7 +43,6 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
           } else {
             console.log("2. excuting SINGLE PART")
             //removeLinage(question, previousSelection);
-            let childrenWithOutMyChildren = removeChildWithParentId(question.id);
             setShowChildren([...removeLinage(question, previousSelection), {'parentId': question.id.toString(), 'childResponseTrigger':answer.toString()}])
           }
         }
@@ -55,13 +54,13 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
     let results = []
     // if value empty then remove every response trigger
     if(childResponseTriggerLinage != null) {
-      console.log("linage value, previous selected -- ")
-      console.log(childResponseTriggerLinage)
+      // console.log("linage value, previous selected -- ")
+      // console.log(childResponseTriggerLinage)
       let linage = question.linage[childResponseTriggerLinage.toString()]
-      console.log("LINAGE");
-      console.log(linage)
-      console.log("showChildren");
-      console.log(showChildren)
+      // console.log("LINAGE");
+      // console.log(linage)
+      // console.log("showChildren");
+      // console.log(showChildren)
       // remove linage from showchildren
       // if(showChildren.length == 1){
       //   results = [] 
@@ -73,8 +72,8 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
         });      
       //}
 
-      console.log("SHOW CHIDLREN - AFTER LINAGE REMOVED")
-      console.log(results)
+      // console.log("SHOW CHIDLREN - AFTER LINAGE REMOVED")
+      // console.log(results)
     }
   
     return results
@@ -114,7 +113,6 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
     // render question if it a child and if ShowChildren contains my child response trigger
     if(props.isChild && shouldChildBeDisplayed(props)) {
       result = <Card color={color} heading={name} key={i}>
-        <Text>{props.id}</Text>
       <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
     </Card>
     } 
