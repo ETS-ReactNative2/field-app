@@ -118,7 +118,6 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
     } 
     else if(!props.isChild) {
       result = <Card color={color} heading={name} key={i}>
-        <Text>{props.id}</Text>
         <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
       </Card>
     }
