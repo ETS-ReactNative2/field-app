@@ -6,7 +6,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
   const [showChildren, setShowChildren] = useState([]);
   const [test, setTest] = useState(false);
 
-    const handleAnswer = (question) => {
+    const handleAnswer = (question, previousSelection) => {
     return async (answer, previousSelection) => {
       onAnswerQuestion({ question, answer }, previousSelection);
       var hasDescendants = question.descendants.length !== 0;
@@ -27,10 +27,9 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
         if(answer.toString().trim() == "") {
           // according to responseTrigger, Remove the whole linage of this question
-          console.log("excuting EMPTY STRING PART")
-          //removeChildWithParentIdAndChildResponseTrigger(question.id, previousSelection)
-          
-          setShowChildren(removeLinage(question, previousSelection));
+          console.log("excuting EMPTY STRING PART--")
+          //removeChildWithParentIdAndChildResponseTrigger(question.id, previousSelection)          
+          setShowChildren(removeLinage(question, previousSelection, answer.toString().trim()));
         } else {
           if(Array.isArray(JSON.parse(answer))){
             //remove accoring to linage
@@ -43,24 +42,36 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
           } else {
             console.log("2. excuting SINGLE PART")
             //removeLinage(question, previousSelection);
-            setShowChildren([...removeLinage(question, previousSelection), {'parentId': question.id.toString(), 'childResponseTrigger':answer.toString()}])
+            setShowChildren([...removeLinage(question, previousSelection, answer.toString().trim()), {'parentId': question.id.toString(), 'childResponseTrigger':answer.toString()}])
           }
         }
       }// end of MultiChoiceQuestion if
     }, 0)
   }
 
-  const removeLinage = (question, childResponseTriggerLinage) => {
+  const removeLinage = (question, childResponseTriggerLinage, currentAnswer, type="EMPTY STRING") => {
     let results = []
+    console.log("INSIDE REMOVE LINAGE - current answer")
+    console.log(currentAnswer)
+    console.log("previous selection")
+    console.log(childResponseTriggerLinage)
     // if value empty then remove every response trigger
-    if(childResponseTriggerLinage != null) {
-      // console.log("linage value, previous selected -- ")
-      // console.log(childResponseTriggerLinage)
+    if(currentAnswer == ""){
+      results = showChildren.filter((el) => {
+        return Object.entries(question.linage).every((linage) => {
+          return linage[1].every((f) => {
+            return !(f.parentId.toString() === el.parentId.toString() && f.childResponseTrigger.toString() === el.childResponseTrigger.toString());
+          });
+        });
+      }); 
+    } else if(childResponseTriggerLinage != null) {
+      console.log("linage value, previous selected -- ")
+      console.log(childResponseTriggerLinage)
       let linage = question.linage[childResponseTriggerLinage.toString()]
-      // console.log("LINAGE");
-      // console.log(linage)
-      // console.log("showChildren");
-      // console.log(showChildren)
+      console.log("LINAGE");
+      console.log(linage)
+      console.log("showChildren ");
+      console.log(showChildren)
       // remove linage from showchildren
       // if(showChildren.length == 1){
       //   results = [] 
@@ -71,10 +82,13 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
           });
         });      
       //}
-
-      // console.log("SHOW CHIDLREN - AFTER LINAGE REMOVED")
-      // console.log(results)
+    } else {
+      results = showChildren;
     }
+    console.log("showChildren 2");
+    console.log(showChildren)
+    console.log("SHOW CHIDLREN - AFTER LINAGE REMOVED")
+    console.log(results)
   
     return results
   }
@@ -109,15 +123,20 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const renderQuestionCard = (color, props, name, questions, i, showChildren) => {
     let result;
-    
+    if(i==0){
+    console.log("SHOW CHILDREN IN RENDER QUESTION CARD")
+    console.log(showChildren);
+    }
     // render question if it a child and if ShowChildren contains my child response trigger
     if(props.isChild && shouldChildBeDisplayed(props)) {
       result = <Card color={color} heading={name} key={i}>
+        <Text>{props.id}</Text>
       <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
     </Card>
     } 
     else if(!props.isChild) {
       result = <Card color={color} heading={name} key={i}>
+        <Text>{props.id}</Text>
         <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
       </Card>
     }

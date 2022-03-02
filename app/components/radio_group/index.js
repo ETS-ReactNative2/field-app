@@ -2,6 +2,7 @@ import Radio from "../radio";
 import Checkbox from "../checkbox";
 import styles from "./styles.js";
 
+
 const RadioGroup = ({ children=[], defaultIndex, index, onChange=()=>{}, ...rest }) => {
   children = [children].flat();
 
@@ -20,11 +21,11 @@ const RadioGroup = ({ children=[], defaultIndex, index, onChange=()=>{}, ...rest
         if (callback) callback(active);
 
         if (i === current) {
-          onChange(-1);
+          onChange(-1, null);
           setCurrent(-1);
           return;
         }
-        onChange(i);
+        onChange(i, current);
 
         if (controlled) return;
         setCurrent(i);

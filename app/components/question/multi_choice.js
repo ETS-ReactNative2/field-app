@@ -16,6 +16,11 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
   const defaultIndexes = filterIndex(multiChoiceOptions, o => contains(o.id, defaultIds));
 
   const onChange = (indexes, previousMultiChoiceAnswerIndex) => {
+    console.log("onChange in multiChoice");
+    console.log("INSIDE ONCHANGE -- index[0]")
+    console.log(indexes[0])
+    console.log(" ONCHANGE -- previousMultiChoiceAnswerIndex")
+    console.log(previousMultiChoiceAnswerIndex)
       let previousMultiChoiceAnswerId = null;
 
       if (indexes[0] == -1) {
@@ -27,15 +32,24 @@ const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions
       ids.sort((a, b) => a - b);
   
       const value = ids.length <= 1 ? (ids[0] || "") : JSON.stringify(ids);
-      if(previousMultiChoiceAnswerIndex) {
-        previousMultiChoiceAnswerId = JSON.stringify(multiChoiceOptions[previousMultiChoiceAnswerIndex].id)
+      console.log("AFTER indexes[0] == -1")
+      //|| previousMultiChoiceAnswerIndex || (typeof previousMultiChoiceAnswerIndex !== "undefined") 
+      if(previousMultiChoiceAnswerIndex == 0 || previousMultiChoiceAnswerIndex) {
+        if(previousMultiChoiceAnswerIndex !== -1) {
+          console.log("inside if");
+          console.log(typeof previousMultiChoiceAnswerIndex);
+          console.log(multiChoiceOptions);
 
-        if(value && Array.isArray(JSON.parse(value))) {
-          let ansArray = JSON.parse(value)
-          ansArray.includes(previousMultiChoiceAnswerId.toString());
-          previousMultiChoiceAnswerId = null
-        } else if (value.toString() == previousMultiChoiceAnswerId.toString()){
-          previousMultiChoiceAnswerId = null
+
+          previousMultiChoiceAnswerId = JSON.stringify(multiChoiceOptions[previousMultiChoiceAnswerIndex].id)
+
+          if(value && Array.isArray(JSON.parse(value))) {
+            let ansArray = JSON.parse(value)
+            ansArray.includes(previousMultiChoiceAnswerId.toString());
+            previousMultiChoiceAnswerId = null
+          } else if (value.toString() == previousMultiChoiceAnswerId.toString()){
+            previousMultiChoiceAnswerId = null
+          }
         }
       }
       onAnswer(value, previousMultiChoiceAnswerId);    
@@ -56,7 +70,7 @@ const MultipleAnswers = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=
 );
 
 const SingleAnswer = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=()=>{} }) => (
-  <RadioGroup color={color} onChange={i =>  onChange([i])} defaultIndex={defaultIndexes[0]}>
+  <RadioGroup color={color} onChange={(i, previousIndex) =>  onChange([i], previousIndex)} defaultIndex={defaultIndexes[0]}>
     {optionsTextAndPhoto.map((obj, i) => (
       <Radio key={i} obj={obj}>
         <Text>{obj.text}</Text>
