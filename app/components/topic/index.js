@@ -51,6 +51,8 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const removeLinage = (question, childResponseTriggerLinage, currentAnswer, type="EMPTY STRING") => {
     let results = []
+
+
     console.log("INSIDE REMOVE LINAGE - current answer")
     console.log(currentAnswer)
     console.log("previous selection")
@@ -65,13 +67,17 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
         });
       }); 
     } else if(childResponseTriggerLinage != null) {
+      let linage = question.linage[childResponseTriggerLinage.toString()]
       console.log("linage value, previous selected -- ")
       console.log(childResponseTriggerLinage)
-      let linage = question.linage[childResponseTriggerLinage.toString()]
+      
       console.log("LINAGE");
       console.log(linage)
       console.log("showChildren ");
       console.log(showChildren)
+      if (typeof linage == "undefined") {
+        return results;
+      }
       // remove linage from showchildren
       // if(showChildren.length == 1){
       //   results = [] 
