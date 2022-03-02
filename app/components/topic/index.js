@@ -76,7 +76,7 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
       console.log("showChildren ");
       console.log(showChildren)
       if (typeof linage == "undefined") {
-        return results;
+        return showChildren;
       }
       // remove linage from showchildren
       // if(showChildren.length == 1){
