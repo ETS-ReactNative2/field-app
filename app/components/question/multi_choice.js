@@ -6,7 +6,7 @@ import { View } from "react-native";
 
 const MultiChoice = ({ interviewMode, color="blue", response, multiChoiceOptions=[], multipleAnswers, onAnswer=()=>{} }) => {
 
-  const optionsTextAndPhoto = multiChoiceOptions.map(o => ({photo: o.photo, text: o.text}));
+  const optionsTextAndPhoto = multiChoiceOptions.map(o => ({id: o.id, photo: o.photo, text: o.text}));
   let defaultIds = response && [JSON.parse(response.value)].flat() || [];
 
   if (interviewMode) {
@@ -63,7 +63,8 @@ const MultipleAnswers = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=
   <CheckList color={color} onChange={onChange} defaultIndexes={defaultIndexes}>
     {optionsTextAndPhoto.map((obj, i) => (
         <Checkbox key={i} obj={obj}>
-            <Text>{obj.text}</Text>           
+           {/* OPTION ID */}
+            <Text>{obj.id} - {obj.text}</Text>           
         </Checkbox>
     ))}
   </CheckList>
@@ -73,7 +74,7 @@ const SingleAnswer = ({ color, defaultIndexes, optionsTextAndPhoto, onChange=()=
   <RadioGroup color={color} onChange={(i, previousIndex) =>  onChange([i], previousIndex)} defaultIndex={defaultIndexes[0]}>
     {optionsTextAndPhoto.map((obj, i) => (
       <Radio key={i} obj={obj}>
-        <Text>{obj.text}</Text>
+        <Text>{obj.id} - {obj.text}</Text> 
       </Radio>
     ))}
   </RadioGroup>

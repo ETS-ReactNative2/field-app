@@ -1,5 +1,6 @@
 import Card from "../card";
 import Question from "../question";
+import deleteLinageFromDB from "../../helpers/delete_linage_from_db";
 import { Button } from 'react-native';
 
 const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onViewIssue=()=>{} }) => {
@@ -51,50 +52,61 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const removeLinage = (question, childResponseTriggerLinage, currentAnswer, type="EMPTY STRING") => {
     let results = []
+    let bad = []
 
-
-    console.log("INSIDE REMOVE LINAGE - current answer")
-    console.log(currentAnswer)
-    console.log("previous selection")
-    console.log(childResponseTriggerLinage)
+     console.log("SHOW CHILDREN BEFORE ANYTHING HAPPENS")
+     console.log(showChildren)
+    // console.log("previous selection")
+    // console.log(childResponseTriggerLinage)
     // if value empty then remove every response trigger
     if(currentAnswer == ""){
       results = showChildren.filter((el) => {
         return Object.entries(question.linage).every((linage) => {
           return linage[1].every((f) => {
-            return !(f.parentId.toString() === el.parentId.toString() && f.childResponseTrigger.toString() === el.childResponseTrigger.toString());
+            if (!(f.parentId.toString() === el.parentId.toString() && f.childResponseTrigger.toString() === el.childResponseTrigger.toString())) {
+              return el;
+            } else {
+              bad.push(el.childResponseTrigger);
+            }         
           });
         });
       }); 
     } else if(childResponseTriggerLinage != null) {
       let linage = question.linage[childResponseTriggerLinage.toString()]
-      console.log("linage value, previous selected -- ")
-      console.log(childResponseTriggerLinage)
+      // console.log("linage value, previous selected -- ")
+      // console.log(childResponseTriggerLinage)
       
-      console.log("LINAGE");
-      console.log(linage)
-      console.log("showChildren ");
-      console.log(showChildren)
+      // console.log("LINAGE");
+      // console.log(linage)
+      // console.log("showChildren ");
+      // console.log(showChildren)
       if (typeof linage == "undefined") {
         return showChildren;
       }
       // remove linage from showchildren
       // if(showChildren.length == 1){
       //   results = [] 
-      // } else {
+      // } else {// Array of elements
+
         results = showChildren.filter((el) => {
           return linage.every((f) => {
-            return !(f.parentId.toString() === el.parentId.toString() && f.childResponseTrigger.toString() === el.childResponseTrigger.toString());
+            if (!(f.parentId.toString() === el.parentId.toString() && f.childResponseTrigger.toString() === el.childResponseTrigger.toString())) {
+              return el;
+            } else {
+              bad.push(el.childResponseTrigger);
+            }
           });
         });      
       //}
     } else {
       results = showChildren;
     }
-    console.log("showChildren 2");
-    console.log(showChildren)
-    console.log("SHOW CHIDLREN - AFTER LINAGE REMOVED")
-    console.log(results)
+    console.log("CHILDREN TO GET EMPTY STRING VALUES");
+    deleteLinageFromDB(bad).then((value) => {
+      console.log("WE DONE HERE BABY")
+      console.log(value);
+      // expected output: "Success!"
+    });
   
     return results
   }
@@ -129,20 +141,21 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
 
   const renderQuestionCard = (color, props, name, questions, i, showChildren) => {
     let result;
-    if(i==0){
-    console.log("SHOW CHILDREN IN RENDER QUESTION CARD")
-    console.log(showChildren);
-    }
+    // if(i==0){
+    // console.log("SHOW CHILDREN IN RENDER QUESTION CARD")
+    // console.log(showChildren);
+    // }
     // render question if it a child and if ShowChildren contains my child response trigger
     if(props.isChild && shouldChildBeDisplayed(props)) {
       result = <Card color={color} heading={name} key={i}>
-        {/* <Text>{props.id}</Text> */}
+         {/* QUESTION ID */}
+        <Text>{props.id}</Text>
       <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
     </Card>
     } 
     else if(!props.isChild) {
       result = <Card color={color} heading={name} key={i}>
-        {/* <Text>{props.id}</Text> */}
+        <Text>{props.id}</Text>
         <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
       </Card>
     }

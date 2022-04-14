@@ -25,6 +25,9 @@ const Response = sequelize.define("response", {
     allowNull: false,
     defaultValue: false,
   },
+  childResponseTrigger: {
+    type: Sequelize.TEXT,
+  },  
   createdAt: timestampField("createdAt"),
   updatedAt: timestampField("updatedAt"),
 });

@@ -30,6 +30,7 @@ const answerQuestion = async ({ interviewee, interviewMode, connected, question,
       questionId: question.id,
       value: answer,
       pushed: false,
+      childResponseTrigger: question.childResponseTrigger,
       intervieweeId: interviewee,
       forInterviewee: interviewMode,
       interviewComplete: false
