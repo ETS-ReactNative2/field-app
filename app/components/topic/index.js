@@ -149,13 +149,13 @@ const Topic = ({ color="blue", name, questions=[], onAnswerQuestion=()=>{}, onVi
     if(props.isChild && shouldChildBeDisplayed(props)) {
       result = <Card color={color} heading={name} key={i}>
          {/* QUESTION ID */}
-        <Text>{props.id}</Text>
+        {/* <Text>{props.id}</Text> */}
       <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
     </Card>
     } 
     else if(!props.isChild) {
       result = <Card color={color} heading={name} key={i}>
-        <Text>{props.id}</Text>
+        {/* <Text>{props.id}</Text> */}
         <Question color={color} onAnswer={handleAnswer(props)} onViewIssue={onViewIssue} {...props} />
       </Card>
     }
